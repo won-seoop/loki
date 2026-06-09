@@ -43,11 +43,11 @@ local pullRequestFooter = 'Merging this PR will release the [artifacts](https://
         yarn exec -- release-please release-pr \
           --changelog-path "${CHANGELOG_PATH}" \
           --consider-all-branches \
-          --group-pull-request-title-pattern "chore\${scope}: release\${component} \${version}" \
+          --group-pull-request-title-pattern "chore\${scope}: Release\${component} \${version}" \
           --label "backport main,autorelease: pending,product-approved" \
           --manifest-file .release-please-manifest.json \
           --pull-request-footer "%s" \
-          --pull-request-title-pattern "chore\${scope}: release\${component} \${version}" \
+          --pull-request-title-pattern "chore\${scope}: Release\${component} \${version}" \
           --release-as "$(echo $OUTPUTS_VERSION | tr -d '"')" \
           --release-type simple \
           --repo-url "${{ env.RELEASE_REPO }}" \
@@ -100,6 +100,7 @@ local pullRequestFooter = 'Merging this PR will release the [artifacts](https://
                    releaseStep('download binaries')
                    + step.withRun(|||
                      echo "downloading binaries to $(pwd)/dist"
+                     mkdir -p dist
                      gcloud artifacts generic download \
                        --project="grafanalabs-dev" \
                        --repository="generic-${{ env.GAR_REPO_SLUG }}-dev" \
